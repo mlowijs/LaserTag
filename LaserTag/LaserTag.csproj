@@ -39,7 +39,7 @@
     <Compile Include="Controllers\CommController.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\GunController.cs" />
-    <Compile Include="InputPortExtensions.cs" />
+    <Compile Include="Extensions\InputPortExtensions.cs" />
     <Compile Include="Laser\LaserDriver.cs" />
     <Compile Include="Laser\LaserPacket.cs" />
     <Compile Include="Program.cs" />

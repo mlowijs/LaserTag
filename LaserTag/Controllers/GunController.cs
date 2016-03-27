@@ -1,3 +1,4 @@
+using LaserTag.Extensions;
 using LaserTag.Laser;
 using Microsoft.SPOT;
 using Microsoft.SPOT.Hardware;
@@ -31,8 +32,6 @@ namespace LaserTag.Controllers
 
         private void OnLaserPacketReceived(LaserPacket packet)
         {
-            //_nrf.SendData(GunHitPipeId, 0x01);
-
             Debug.Print("[" + packet.SequenceNumber + "] HIT by gun ID " + packet.SenderId);
         }
     }

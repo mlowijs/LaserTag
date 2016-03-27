@@ -1,7 +1,7 @@
 using Microsoft.SPOT.Hardware;
 using SecretLabs.NETMF.Hardware.Netduino;
 
-namespace LaserTag
+namespace LaserTag.Extensions
 {
     public static class InputPortExtensions
     {
