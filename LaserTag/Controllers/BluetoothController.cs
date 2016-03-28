@@ -4,7 +4,7 @@ using SecretLabs.NETMF.Hardware.Netduino;
 
 namespace LaserTag.Controllers
 {
-    public class CommController
+    public class BluetoothController
     {
         #region nRF8001 Setup Data
         private readonly byte[][] SetupData = new byte[][]
@@ -36,14 +36,21 @@ namespace LaserTag.Controllers
         private const byte BtLeBondTimeout = 15;
         private const byte BtLeBondInterval = 64;
 
-        private const byte GunTriggerStatePipeId = 1;
-        private const byte GunHitPipeId = 2;
-        private const byte RedDotSightPowerPipeId = 3;
+        private const byte AmmoStatPipeId = 1;
+        private const byte ClipsStatPipeId = 2;
+        private const byte HealthStatPipeId = 3;
+        private const byte RdsPowerCommandPipeId = 4;
+        private const byte ReloadCommandPipeId = 5;
 
         private Nrf8001 _nrf;
 
-        public CommController()
+        public GameController GameController { get; set; }
+        public IOController IOController { get; private set; }
+
+        public BluetoothController(IOController ioController)
         {
+            IOController = ioController;
+
             _nrf = new Nrf8001(Pins.GPIO_PIN_D8, Pins.GPIO_PIN_D9, Pins.GPIO_PIN_D7, SPI_Devices.SPI1);
             _nrf.AciEventReceived += OnAciEventReceived;
             _nrf.DataReceived += OnDataReceived;
@@ -59,15 +66,41 @@ namespace LaserTag.Controllers
         }
 
 
+        public void NotifyAmmo(int newAmmo)
+        {
+            _nrf.SendData(AmmoStatPipeId, (byte)newAmmo);
+        }
+
+        public void NotifyClips(int newClips)
+        {
+            _nrf.SendData(ClipsStatPipeId, (byte)newClips);
+        }
+
+        public void NotifyHealth(int newHealth, byte shooterId)
+        {
+            _nrf.SendData(HealthStatPipeId, (byte)newHealth, shooterId);
+        }
+
+
+        private void OnDataReceived(DataReceivedEvent dataReceivedEvent)
+        {
+            switch (dataReceivedEvent.ServicePipeId)
+            {
+                case RdsPowerCommandPipeId:
+                    IOController.RedDotSightEnabled = dataReceivedEvent.Data[0] == 0x01;
+                    break;
+
+                case ReloadCommandPipeId:
+                    GameController.TryReloadGun();
+                    break;
+            }
+        }
+
+
         private void OnAciEventReceived(AciEvent aciEvent)
         {
             if (aciEvent.EventType == AciEventType.Disconnected && _nrf.Bonded)
                 _nrf.AwaitConnection(BtLeBondTimeout, BtLeBondInterval);
-        }
-
-        private void OnDataReceived(DataReceivedEvent dataReceivedEvent)
-        {
-            
         }
     }
 }

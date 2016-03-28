@@ -2,47 +2,36 @@ using System.Threading;
 
 namespace LaserTag
 {
-    class Timer
+    public class Timer
     {
         private System.Threading.Timer _timer;
         private int _dueTime, _period;
-        private bool _enabled;
+        private bool _started;
 
-        public bool IsEnabled
+        public bool IsStarted
         {
-            get { return _enabled; }
+            get { return _started; }
             set
             {
-                if (value && !_enabled)
+                if (value && !_started)
                 {
-                    _enabled = true;
-                    Start();
+                    _started = true;
+                    _timer.Change(_dueTime, _period);
                 }
-                else if (!value && _enabled)
+                else if (!value && _started)
                 {
-                    _enabled = false;
-                    Stop();
+                    _started = false;
+                    _timer.Change(Timeout.Infinite, Timeout.Infinite);
                 }
             }
         }
 
-        public Timer(TimerCallback calback, int dueTime, int period)
+        public Timer(TimerCallback callback, int dueTime, int period)
         {
             _dueTime = dueTime;
             _period = period;
 
-            _timer = new System.Threading.Timer(calback, null, Timeout.Infinite, Timeout.Infinite);
-        }
-
-
-        private void Start()
-        {
-            _timer.Change(_dueTime, _period);
-        }
-
-        private void Stop()
-        {
-            _timer.Change(Timeout.Infinite, Timeout.Infinite);
+            _timer = new System.Threading.Timer(callback, null, Timeout.Infinite, Timeout.Infinite);
         }
     }
 }

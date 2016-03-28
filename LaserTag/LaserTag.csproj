@@ -36,9 +36,9 @@
   </PropertyGroup>
   <Import Project="$(NetMfTargetsBaseDir)$(TargetFrameworkVersion)\CSharp.Targets" />
   <ItemGroup>
-    <Compile Include="Controllers\CommController.cs" />
+    <Compile Include="Controllers\BluetoothController.cs" />
     <Compile Include="Controllers\GameController.cs" />
-    <Compile Include="Controllers\GunController.cs" />
+    <Compile Include="Controllers\IOController.cs" />
     <Compile Include="Extensions\InputPortExtensions.cs" />
     <Compile Include="Laser\LaserDriver.cs" />
     <Compile Include="Laser\LaserPacket.cs" />

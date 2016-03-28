@@ -9,13 +9,19 @@ namespace LaserTag
         {
             Debug.Print("Program started.");
 
-            var _gunController = new GunController(0x01);
-            var _commController = new CommController();
+            var ioController = new IOController(0x01);
+            var btController = new BluetoothController(ioController);
+
+            var gameController = new GameController(btController, ioController);
+            btController.GameController = gameController;
+            ioController.GameController = gameController;
+
+            Debug.Print("Init complete, looping...");
 
             while (true)
             {
-                _gunController.Process();
-                _commController.Process();
+                ioController.Process();
+                btController.Process();
             }
         }
     }

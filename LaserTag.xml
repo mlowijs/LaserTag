@@ -55,7 +55,7 @@
             <Uuid BaseUUID="f0fa000036a844b6b21ab518deea2c2d" BaseUUIDName="LaserTag">1003</Uuid>
             <DefaultValue>0</DefaultValue>
             <UsePresentationFormat>0</UsePresentationFormat>
-            <MaxDataLength>1</MaxDataLength>
+            <MaxDataLength>2</MaxDataLength>
             <AttributeLenType>1</AttributeLenType>
             <ForceOpen>false</ForceOpen>
             <ForceEncryption>false</ForceEncryption>

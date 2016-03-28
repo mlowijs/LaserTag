@@ -2,50 +2,62 @@ namespace LaserTag.Controllers
 {
     public class GameController
     {
-        public int Health { get; private set; }
-        public int Ammo { get; private set; }
-        public int Clips { get; private set; }
+        private const int FiringInterval = 250;
 
-        private int _initialHealth;
-        private int _damagePerShot;
-        private int _ammoPerClip;
+        private int _ammoPerClip = 20;
+        private int _damagePerHit = 10;
+        private int _initialHealth = 100;
 
+        private int _ammo;
+        private int _clips;
+        private int _health;
 
-        public void InitializeGame()
+        public BluetoothController BluetoothController { get; private set; }
+        public IOController IOController { get; private set; }
+
+        public Timer FiringTimer { get; private set; }
+
+        public GameController(BluetoothController btController, IOController ioController)
         {
-            // Do all initialization here
+            BluetoothController = btController;
+            IOController = ioController;
+
+            FiringTimer = new Timer(_ => TryFireLaser(), 0, FiringInterval);
         }
 
-        public void RegisterHit()
-        {
-            Health -= _damagePerShot;
 
-            if (Health <= 0)
+        public void TryReloadGun()
+        {
+            if (_clips > 0)
             {
-                // you died
+                _clips--;
+                _ammo = _ammoPerClip;
+
+                BluetoothController.NotifyAmmo(_ammo);
+                BluetoothController.NotifyClips(_clips);
             }
         }
 
-        public void Respawn()
+        public void HitByLaser(byte shooterId)
         {
-            Health = _initialHealth;
+            _health -= _damagePerHit;
+
+            if (_health <= 0)
+                _health = _initialHealth; // TODO: respawn mechanismb
+
+            BluetoothController.NotifyHealth(_health, shooterId);
         }
 
 
-        public void ReloadAmmo()
+        private void TryFireLaser()
         {
-            if (Clips > 0)
+            if (_ammo > 0)
             {
-                Clips--;
+                _ammo--;
 
-                Ammo = _ammoPerClip;
+                IOController.FireLaser();
+                BluetoothController.NotifyAmmo(_ammo);
             }
-        }
-
-        public void FireShot()
-        {
-            if (Ammo > 0)
-                Ammo--;
         }
     }
 }
