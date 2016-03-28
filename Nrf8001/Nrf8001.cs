@@ -157,6 +157,16 @@ namespace Nrf8001Driver
             }
         }
 
+        /// <summary>
+        /// Checks whether the specified service pipe is open for data transfer.
+        /// </summary>
+        /// <param name="servicePipeId">The ID of the service pipe.</param>
+        /// <returns>True if the service pipe is open, otherwise false.</returns>
+        public bool IsServicePipeOpen(byte servicePipeId)
+        {
+            return (OpenPipesBitmap >> servicePipeId & 0x01) != 0;
+        }
+
         #region ACI Commands
         /// <summary>
         /// Activates Sleep mode.
@@ -255,7 +265,7 @@ namespace Nrf8001Driver
             if (DataCreditsAvailable < 1)
                 throw new InvalidOperationException("There are no data credits available.");
 
-            if ((OpenPipesBitmap >> servicePipeId & 0x01) == 0)
+            if (!IsServicePipeOpen(servicePipeId))
                 throw new InvalidOperationException("Service pipe is not open.");
 
             AciSend(AciOpCode.SendData, servicePipeId, data);

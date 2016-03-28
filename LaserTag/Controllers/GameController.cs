@@ -1,3 +1,5 @@
+using Microsoft.SPOT;
+
 namespace LaserTag.Controllers
 {
     public class GameController
@@ -35,8 +37,7 @@ namespace LaserTag.Controllers
                 _clips--;
                 _ammo = _ammoPerClip;
 
-                BluetoothController.NotifyAmmo(_ammo);
-                BluetoothController.NotifyClips(_clips);
+                BluetoothController.NotifyGun(_ammo, _clips);
             }
         }
 
@@ -44,31 +45,33 @@ namespace LaserTag.Controllers
         {
             _health -= _damagePerHit;
 
-            BluetoothController.NotifyHealth(_health, shooterId);
-
-            if (_health <= 0)
-                Respawn();
+            BluetoothController.NotifyPlayer(_health, shooterId);
         }
 
-
-        private void TryFireLaser()
-        {
-            if (_ammo > 0)
-            {
-                _ammo--;
-
-                IOController.FireLaser();
-                BluetoothController.NotifyAmmo(_ammo);
-            }
-        }
-
-        private void Respawn()
+        public void Respawn()
         {
             // TODO: Add a timeout after dying
 
             _ammo = _ammoPerClip;
             _clips = _initialClips - 1;
             _health = _initialHealth;
+
+            BluetoothController.NotifyGun(_ammo, _clips);
+            BluetoothController.NotifyPlayer(_health, 0);
+        }
+
+
+        private void TryFireLaser()
+        {
+            if (_ammo > 0 && _health > 0)
+            {
+                _ammo--;
+
+                Debug.Print("Ammo, clips = " + _ammo + ", " + _clips);
+
+                IOController.FireLaser();
+                BluetoothController.NotifyGun(_ammo, _clips);
+            }
         }
     }
 }

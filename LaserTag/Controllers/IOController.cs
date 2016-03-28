@@ -1,6 +1,5 @@
 using LaserTag.Extensions;
 using LaserTag.Laser;
-using Microsoft.SPOT;
 using Microsoft.SPOT.Hardware;
 using SecretLabs.NETMF.Hardware.Netduino;
 
@@ -9,6 +8,7 @@ namespace LaserTag.Controllers
     public class IOController
     {
         private InputPort _triggerButton;
+
         private LaserDriver _laserDriver;
 
         public GameController GameController { get; set; }
@@ -21,7 +21,7 @@ namespace LaserTag.Controllers
             {
                 _redDotSightEnabled = value;
 
-                Debug.Print("TODO: RDS power");
+                // TODO: RDS power
             }
         }
 
@@ -48,8 +48,6 @@ namespace LaserTag.Controllers
 
         private void OnLaserPacketReceived(LaserPacket packet)
         {
-            Debug.Print("[" + packet.SequenceNumber + "] HIT by gun ID " + packet.SenderId);
-
             GameController.HitByLaser(packet.SenderId);
         }
     }

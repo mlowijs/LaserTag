@@ -16,6 +16,8 @@ namespace LaserTag
             btController.GameController = gameController;
             ioController.GameController = gameController;
 
+            gameController.Respawn();
+
             Debug.Print("Init complete, looping...");
 
             while (true)
