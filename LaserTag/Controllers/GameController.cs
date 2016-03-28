@@ -43,7 +43,8 @@ namespace LaserTag.Controllers
             _health -= _damagePerHit;
 
             if (_health <= 0)
-                _health = _initialHealth; // TODO: respawn mechanismb
+                // TODO: respawn mechanismb
+                _health = _initialHealth; 
 
             BluetoothController.NotifyHealth(_health, shooterId);
         }
