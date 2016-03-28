@@ -7,7 +7,7 @@ namespace LaserTag.Controllers
     public class BluetoothController
     {
         #region nRF8001 Setup Data
-        private readonly byte[][] SetupData = new byte[][]
+        private readonly byte[][] Nrf8001SetupData = new byte[][]
         {
             new byte[] {0x00,0x00,0x03,0x02,0x42,0x07,},
             new byte[] {0x10,0x00,0x00,0x00,0x00,0x00,0x02,0x00,0x03,0x00,0x03,0x01,0x01,0x00,0x00,0x06,0x00,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,},
@@ -55,7 +55,7 @@ namespace LaserTag.Controllers
             _nrf.AciEventReceived += OnAciEventReceived;
             _nrf.DataReceived += OnDataReceived;
 
-            _nrf.Setup(SetupData);
+            _nrf.Setup(Nrf8001SetupData);
             //_nrf.AwaitBond(BtLeBondTimeout, BtLeBondInterval);
         }
 
