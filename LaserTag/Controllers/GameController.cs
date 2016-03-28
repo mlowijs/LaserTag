@@ -6,6 +6,8 @@ namespace LaserTag.Controllers
 
         private int _ammoPerClip = 20;
         private int _damagePerHit = 10;
+
+        private int _initialClips = 3;
         private int _initialHealth = 100;
 
         private int _ammo;
@@ -42,11 +44,10 @@ namespace LaserTag.Controllers
         {
             _health -= _damagePerHit;
 
-            if (_health <= 0)
-                // TODO: respawn mechanismb
-                _health = _initialHealth; 
-
             BluetoothController.NotifyHealth(_health, shooterId);
+
+            if (_health <= 0)
+                Respawn();
         }
 
 
@@ -59,6 +60,15 @@ namespace LaserTag.Controllers
                 IOController.FireLaser();
                 BluetoothController.NotifyAmmo(_ammo);
             }
+        }
+
+        private void Respawn()
+        {
+            // TODO: Add a timeout after dying
+
+            _ammo = _ammoPerClip;
+            _clips = _initialClips - 1;
+            _health = _initialHealth;
         }
     }
 }
