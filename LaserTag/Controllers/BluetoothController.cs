@@ -2,7 +2,6 @@ using LaserTag.Models;
 using Nrf8001Driver;
 using Nrf8001Driver.Events;
 using SecretLabs.NETMF.Hardware.Netduino;
-using LaserTag.Extensions;
 
 namespace LaserTag.Controllers
 {
