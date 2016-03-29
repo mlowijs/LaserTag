@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nrf8001Driver", "Nrf8001\Nrf8001Driver.csproj", "{5DF5842F-2712-4E9E-9262-F626D7204818}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaserTag.Gun", "LaserTag\LaserTag.Gun.csproj", "{05365C16-1FD1-4D82-B3E4-56721D50B9F3}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{70A3CB6C-A5D5-4F41-8685-F1FC4BCB725D}"
 	ProjectSection(SolutionItems) = preProject
 		LaserTag.xml = LaserTag.xml
@@ -22,33 +18,37 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Base", "Base", "{665CAF21-2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaserTag.Model", "LaserTag.Model\LaserTag.Model.csproj", "{F10C38CF-9E20-4E59-9791-E4F2D0DF4D70}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaserTag.Gun", "LaserTag.Gun\LaserTag.Gun.csproj", "{05365C16-1FD1-4D82-B3E4-56721D50B9F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nrf8001Driver", "Nrf8001Driver\Nrf8001Driver.csproj", "{5DF5842F-2712-4E9E-9262-F626D7204818}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5DF5842F-2712-4E9E-9262-F626D7204818}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5DF5842F-2712-4E9E-9262-F626D7204818}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5DF5842F-2712-4E9E-9262-F626D7204818}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5DF5842F-2712-4E9E-9262-F626D7204818}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F10C38CF-9E20-4E59-9791-E4F2D0DF4D70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F10C38CF-9E20-4E59-9791-E4F2D0DF4D70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F10C38CF-9E20-4E59-9791-E4F2D0DF4D70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F10C38CF-9E20-4E59-9791-E4F2D0DF4D70}.Release|Any CPU.Build.0 = Release|Any CPU
 		{05365C16-1FD1-4D82-B3E4-56721D50B9F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{05365C16-1FD1-4D82-B3E4-56721D50B9F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05365C16-1FD1-4D82-B3E4-56721D50B9F3}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{05365C16-1FD1-4D82-B3E4-56721D50B9F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05365C16-1FD1-4D82-B3E4-56721D50B9F3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{05365C16-1FD1-4D82-B3E4-56721D50B9F3}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{F10C38CF-9E20-4E59-9791-E4F2D0DF4D70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F10C38CF-9E20-4E59-9791-E4F2D0DF4D70}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F10C38CF-9E20-4E59-9791-E4F2D0DF4D70}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F10C38CF-9E20-4E59-9791-E4F2D0DF4D70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DF5842F-2712-4E9E-9262-F626D7204818}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DF5842F-2712-4E9E-9262-F626D7204818}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DF5842F-2712-4E9E-9262-F626D7204818}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DF5842F-2712-4E9E-9262-F626D7204818}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{5DF5842F-2712-4E9E-9262-F626D7204818} = {C1D61D5F-34C9-4047-B326-101206FF4CDB}
-		{05365C16-1FD1-4D82-B3E4-56721D50B9F3} = {C1D61D5F-34C9-4047-B326-101206FF4CDB}
 		{F10C38CF-9E20-4E59-9791-E4F2D0DF4D70} = {665CAF21-2BD5-48F1-A407-46E1251EE14E}
+		{05365C16-1FD1-4D82-B3E4-56721D50B9F3} = {C1D61D5F-34C9-4047-B326-101206FF4CDB}
+		{5DF5842F-2712-4E9E-9262-F626D7204818} = {C1D61D5F-34C9-4047-B326-101206FF4CDB}
 	EndGlobalSection
 EndGlobal
