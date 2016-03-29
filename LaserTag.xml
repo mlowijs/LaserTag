@@ -7,33 +7,11 @@
         <Name>LaserTag Commands</Name>
         <Uuid BaseUUID="f0fa000036a844b6b21ab518deea2c2d" BaseUUIDName="LaserTag">2000</Uuid>
         <Characteristic>
-            <Name>LaserTag Command RDS Power</Name>
+            <Name>LaserTag Command</Name>
             <Uuid BaseUUID="f0fa000036a844b6b21ab518deea2c2d" BaseUUIDName="LaserTag">2001</Uuid>
             <DefaultValue>0</DefaultValue>
             <UsePresentationFormat>0</UsePresentationFormat>
-            <MaxDataLength>1</MaxDataLength>
-            <AttributeLenType>1</AttributeLenType>
-            <ForceOpen>false</ForceOpen>
-            <ForceEncryption>false</ForceEncryption>
-            <Properties>
-                <WriteWithoutResponse>true</WriteWithoutResponse>
-                <Write>false</Write>
-                <Notify>false</Notify>
-                <Indicate>false</Indicate>
-                <Broadcast>false</Broadcast>
-            </Properties>
-            <SetPipe>false</SetPipe>
-            <AckIsAuto>false</AckIsAuto>
-            <PresentationFormatDescriptor Value="0000" Exponent="0" Format="1" NameSpace="01" Unit="0000"/>
-            <PeriodForReadingThisCharacteristic>0</PeriodForReadingThisCharacteristic>
-            <PeriodForProperties/>
-        </Characteristic>
-        <Characteristic>
-            <Name>LaserTag Command Reload </Name>
-            <Uuid BaseUUID="f0fa000036a844b6b21ab518deea2c2d" BaseUUIDName="LaserTag">2002</Uuid>
-            <DefaultValue>0</DefaultValue>
-            <UsePresentationFormat>0</UsePresentationFormat>
-            <MaxDataLength>1</MaxDataLength>
+            <MaxDataLength>2</MaxDataLength>
             <AttributeLenType>1</AttributeLenType>
             <ForceOpen>false</ForceOpen>
             <ForceEncryption>false</ForceEncryption>
