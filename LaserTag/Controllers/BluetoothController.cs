@@ -96,17 +96,16 @@ namespace LaserTag.Controllers
         }
 
 
-        private void OnDataReceived(DataReceivedEvent dataReceivedEvent)
-        {
-            if (dataReceivedEvent.ServicePipeId == CommandPipeId)
-                HandleCommand(dataReceivedEvent.Data);   
-        }
-
-
         private void OnAciEventReceived(AciEvent aciEvent)
         {
             if (aciEvent.EventType == AciEventType.Disconnected && _nrf.Bonded)
                 _nrf.AwaitConnection(BtLeBondTimeout, BtLeBondInterval);
+        }
+
+        private void OnDataReceived(DataReceivedEvent dataReceivedEvent)
+        {
+            if (dataReceivedEvent.ServicePipeId == CommandPipeId)
+                HandleCommand(dataReceivedEvent.Data);   
         }
     }
 }
