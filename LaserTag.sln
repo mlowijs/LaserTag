@@ -12,6 +12,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		LaserTag.xml = LaserTag.xml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gun", "Gun", "{C1D61D5F-34C9-4047-B326-101206FF4CDB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{F6B83A70-EDD4-49DF-A7C8-9839F1F4BE64}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DesktopClient", "DesktopClient", "{627B530F-71CB-4D99-84AF-E975575CA4AE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Base", "Base", "{665CAF21-2BD5-48F1-A407-46E1251EE14E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaserTag.Model", "LaserTag.Model\LaserTag.Model.csproj", "{F10C38CF-9E20-4E59-9791-E4F2D0DF4D70}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,8 +38,17 @@ Global
 		{05365C16-1FD1-4D82-B3E4-56721D50B9F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05365C16-1FD1-4D82-B3E4-56721D50B9F3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{05365C16-1FD1-4D82-B3E4-56721D50B9F3}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{F10C38CF-9E20-4E59-9791-E4F2D0DF4D70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F10C38CF-9E20-4E59-9791-E4F2D0DF4D70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F10C38CF-9E20-4E59-9791-E4F2D0DF4D70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F10C38CF-9E20-4E59-9791-E4F2D0DF4D70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5DF5842F-2712-4E9E-9262-F626D7204818} = {C1D61D5F-34C9-4047-B326-101206FF4CDB}
+		{05365C16-1FD1-4D82-B3E4-56721D50B9F3} = {C1D61D5F-34C9-4047-B326-101206FF4CDB}
+		{F10C38CF-9E20-4E59-9791-E4F2D0DF4D70} = {665CAF21-2BD5-48F1-A407-46E1251EE14E}
 	EndGlobalSection
 EndGlobal

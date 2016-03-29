@@ -1,4 +1,5 @@
-using LaserTag.Gun.Models;
+using LaserTag.Gun.Model;
+using LaserTag.Model;
 using Nrf8001Driver;
 using Nrf8001Driver.Events;
 using SecretLabs.NETMF.Hardware.Netduino;
