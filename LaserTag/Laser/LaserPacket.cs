@@ -1,4 +1,4 @@
-namespace LaserTag.Laser
+namespace LaserTag.Gun.Laser
 {
     public class LaserPacket
     {

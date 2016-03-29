@@ -1,6 +1,6 @@
 using System.Threading;
 
-namespace LaserTag
+namespace LaserTag.Gun
 {
     public class Timer
     {

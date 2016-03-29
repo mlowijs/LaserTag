@@ -1,7 +1,7 @@
 using Microsoft.SPOT.Hardware;
 using System.IO.Ports;
 
-namespace LaserTag.Laser
+namespace LaserTag.Gun.Laser
 {
     public delegate void PacketReceivedEventHandler(LaserPacket laserPacket);
 

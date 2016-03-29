@@ -1,9 +1,9 @@
-using LaserTag.Models;
+using LaserTag.Gun.Models;
 using Nrf8001Driver;
 using Nrf8001Driver.Events;
 using SecretLabs.NETMF.Hardware.Netduino;
 
-namespace LaserTag.Controllers
+namespace LaserTag.Gun.Controllers
 {
     public class BluetoothController
     {

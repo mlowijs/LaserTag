@@ -1,6 +1,6 @@
 using Microsoft.SPOT;
 
-namespace LaserTag.Controllers
+namespace LaserTag.Gun.Controllers
 {
     public class GameController
     {

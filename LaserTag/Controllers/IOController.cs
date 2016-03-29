@@ -1,9 +1,9 @@
-using LaserTag.Extensions;
-using LaserTag.Laser;
+using LaserTag.Gun.Extensions;
+using LaserTag.Gun.Laser;
 using Microsoft.SPOT.Hardware;
 using SecretLabs.NETMF.Hardware.Netduino;
 
-namespace LaserTag.Controllers
+namespace LaserTag.Gun.Controllers
 {
     public class IOController
     {

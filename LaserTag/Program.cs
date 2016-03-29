@@ -1,7 +1,7 @@
-﻿using LaserTag.Controllers;
+﻿using LaserTag.Gun.Controllers;
 using Microsoft.SPOT;
 
-namespace LaserTag
+namespace LaserTag.Gun
 {
     public class Program
     {

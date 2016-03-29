@@ -1,6 +1,6 @@
 using System;
 
-namespace LaserTag.Models
+namespace LaserTag.Gun.Models
 {
     [Flags]
     public enum Commands
