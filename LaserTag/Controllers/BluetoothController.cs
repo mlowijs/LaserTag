@@ -40,11 +40,9 @@ namespace LaserTag.Controllers
         private const byte BtLeBondTimeout = 15;
         private const byte BtLeBondInterval = 64;
 
-        private const byte RdsPowerCommandPipeId = 1;
-        private const byte ReloadCommandPipeId = 2;
-        private const byte GunStatPipeId = 3;
-        private const byte PlayerStatPipeId = 4;
-
+        private const byte CommandPipeId = 1;
+        private const byte GunStatPipeId = 2;
+        private const byte PlayerStatPipeId = 3;
 
         private Nrf8001 _nrf;
 
@@ -83,18 +81,25 @@ namespace LaserTag.Controllers
         }
 
 
-        private void OnDataReceived(DataReceivedEvent dataReceivedEvent)
+        private void HandleCommand(byte[] data)
         {
-            var commands = (Commands)dataReceivedEvent.Data[0];
+            var commands = (Commands)data[0];
 
             if (commands.HasFlag(Commands.RdsPower))
-                IOController.RedDotSightEnabled = dataReceivedEvent.Data[0] == 0x01;
+                IOController.RedDotSightEnabled = data[1] == 0x01;
 
             if (commands.HasFlag(Commands.Reload))
                 GameController.TryReloadGun();
 
             if (commands.HasFlag(Commands.Respawn))
                 GameController.Respawn();
+        }
+
+
+        private void OnDataReceived(DataReceivedEvent dataReceivedEvent)
+        {
+            if (dataReceivedEvent.ServicePipeId == CommandPipeId)
+                HandleCommand(dataReceivedEvent.Data);   
         }
 
 
