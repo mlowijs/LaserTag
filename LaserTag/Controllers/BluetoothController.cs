@@ -1,6 +1,8 @@
+using LaserTag.Models;
 using Nrf8001Driver;
 using Nrf8001Driver.Events;
 using SecretLabs.NETMF.Hardware.Netduino;
+using LaserTag.Extensions;
 
 namespace LaserTag.Controllers
 {
@@ -83,16 +85,16 @@ namespace LaserTag.Controllers
 
         private void OnDataReceived(DataReceivedEvent dataReceivedEvent)
         {
-            switch (dataReceivedEvent.ServicePipeId)
-            {
-                case RdsPowerCommandPipeId:
-                    IOController.RedDotSightEnabled = dataReceivedEvent.Data[0] == 0x01;
-                    break;
+            var commands = (Commands)dataReceivedEvent.Data[0];
 
-                case ReloadCommandPipeId:
-                    GameController.TryReloadGun();
-                    break;
-            }
+            if (commands.HasFlag(Commands.RdsPower))
+                IOController.RedDotSightEnabled = dataReceivedEvent.Data[0] == 0x01;
+
+            if (commands.HasFlag(Commands.Reload))
+                GameController.TryReloadGun();
+
+            if (commands.HasFlag(Commands.Respawn))
+                GameController.Respawn();
         }
 
 
