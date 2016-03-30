@@ -2,6 +2,8 @@ using System.Threading;
 
 namespace LaserTag.Gun
 {
+    public delegate void TimerCallback();
+
     public class Timer
     {
         private System.Threading.Timer _timer;
@@ -31,7 +33,7 @@ namespace LaserTag.Gun
             _dueTime = dueTime;
             _period = period;
 
-            _timer = new System.Threading.Timer(callback, null, Timeout.Infinite, Timeout.Infinite);
+            _timer = new System.Threading.Timer(_ => callback(), null, Timeout.Infinite, Timeout.Infinite);
         }
     }
 }

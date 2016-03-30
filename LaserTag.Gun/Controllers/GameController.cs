@@ -26,7 +26,7 @@ namespace LaserTag.Gun.Controllers
             BluetoothController = btController;
             IOController = ioController;
 
-            FiringTimer = new Timer(_ => TryFireLaser(), 0, FiringInterval);
+            FiringTimer = new Timer(TryFireLaser, 0, FiringInterval);
         }
 
 
