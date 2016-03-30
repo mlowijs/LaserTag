@@ -59,7 +59,7 @@ namespace Nrf8001Driver
         /// <param name="spiModule">The SPI module to use for communication with the nRF8001.</param>
         public Nrf8001(Cpu.Pin rstPin, Cpu.Pin reqPin, Cpu.Pin rdyPin, SPI.SPI_module spiModule)
         {
-            _rst = new OutputPort(rstPin, true);
+            _rst = new OutputPort(rstPin, false);
             _req = new OutputPort(reqPin, true);
             _rdy = new InterruptPort(rdyPin, false, Port.ResistorMode.PullUp, Port.InterruptMode.InterruptEdgeLow);
             _spi = new SPI(new SPI.Configuration(Cpu.Pin.GPIO_NONE, false, 0, 0, false, true, 100, spiModule));
@@ -74,14 +74,14 @@ namespace Nrf8001Driver
         /// Resets the nRF8001 by toggling its RST pin.
         /// </summary>
         public void Reset()
-        {
+        {           
+            _rst.Write(false);
+
             Bonded = false;
             State = Nrf8001State.Resetting;
-
-            _rst.Write(false);
-            Thread.Sleep(100);
-
             _eventQueue = new Queue();
+
+            Thread.Sleep(50);
 
             _rst.Write(true);
         }
@@ -321,10 +321,14 @@ namespace Nrf8001Driver
             _spi.WriteReadLsb(ReadEventLengthBuffer, readBuffer);
 
             // Check event packet length
-            if (readBuffer[1] > 0)
+            if (readBuffer[1] > 0 && readBuffer[1] <= 30)
             {
                 readBuffer = new byte[readBuffer[1]];
                 _spi.WriteReadLsb(new byte[readBuffer.Length], readBuffer);
+            }
+            else
+            {
+                readBuffer = null;
             }
 
             // SPI communication done
@@ -337,7 +341,10 @@ namespace Nrf8001Driver
         #region ACI Events
         private void OnRdyInterrupt(uint data1, uint data2, DateTime time)
         {
-            _eventQueue.Enqueue(AciReceive());
+            var content = AciReceive();
+
+            if (content != null)
+                _eventQueue.Enqueue(content);
         }
 
         private void ProcessEvent(byte[] content)
