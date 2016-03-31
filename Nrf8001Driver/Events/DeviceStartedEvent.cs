@@ -1,4 +1,3 @@
-
 namespace Nrf8001Driver.Events
 {
     public class DeviceStartedEvent : AciEvent

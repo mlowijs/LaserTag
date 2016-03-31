@@ -1,6 +1,6 @@
 ﻿namespace LaserTag.Model
 {
-    public enum Command
+    public enum Command : byte
     {
         RdsPower = 1,
         Reload = 2,

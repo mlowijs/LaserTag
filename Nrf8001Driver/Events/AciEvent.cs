@@ -1,5 +1,3 @@
-using Nrf8001Driver.Commands;
-
 namespace Nrf8001Driver.Events
 {
     public class AciEvent

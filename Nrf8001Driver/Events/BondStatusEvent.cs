@@ -1,5 +1,3 @@
-using System;
-using Microsoft.SPOT;
 using Nrf8001Driver.Commands;
 
 namespace Nrf8001Driver.Events

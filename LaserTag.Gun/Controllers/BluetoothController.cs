@@ -1,5 +1,7 @@
 using LaserTag.Model;
+using Microsoft.SPOT.Hardware;
 using Nrf8001Driver;
+using Nrf8001Driver.Commands;
 using Nrf8001Driver.Events;
 using SecretLabs.NETMF.Hardware.Netduino;
 
@@ -43,12 +45,17 @@ namespace LaserTag.Gun.Controllers
         private const byte PlayerStatPipeId = 3;
 
         private Nrf8001 _nrf;
+        private OutputPort _onboardLed;
+        private Timer _btTimer;
 
         public GameController GameController { get; set; }
         public IOController IOController { get; private set; }
 
         public BluetoothController(IOController ioController)
         {
+            _onboardLed = new OutputPort(Pins.ONBOARD_LED, false);
+            _btTimer = new Timer(() => _onboardLed.Write(!_onboardLed.Read()), 0, 750);
+
             IOController = ioController;
 
             _nrf = new Nrf8001(Pins.GPIO_PIN_D8, Pins.GPIO_PIN_D9, Pins.GPIO_PIN_D7, SPI_Devices.SPI1);
@@ -96,8 +103,27 @@ namespace LaserTag.Gun.Controllers
 
         private void OnAciEventReceived(AciEvent aciEvent)
         {
-            if (aciEvent.EventType == AciEventType.Disconnected && _nrf.Bonded)
-                _nrf.AwaitConnection(BtLeBondTimeout, BtLeBondInterval);
+            switch (aciEvent.EventType)
+            {
+                case AciEventType.CommandResponse:
+                    var evt = (CommandResponseEvent)aciEvent;
+
+                    if (evt.Command == AciOpCode.Bond)
+                        _btTimer.IsStarted = true;
+                    break;
+
+                case AciEventType.Connected:
+                    _btTimer.IsStarted = false;
+                    _onboardLed.Write(true);
+                    break;
+
+                case AciEventType.Disconnected:
+                    _btTimer.IsStarted = true;
+
+                    if (_nrf.Bonded)
+                        _nrf.AwaitConnection(BtLeBondTimeout, BtLeBondInterval);
+                    break;                
+            }
         }
 
         private void OnDataReceived(DataReceivedEvent dataReceivedEvent)

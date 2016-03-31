@@ -364,11 +364,6 @@ namespace Nrf8001Driver
                     HandleCommandResponseEvent((CommandResponseEvent)aciEvent);
                     break;
 
-                case AciEventType.Connected:
-                    aciEvent = new AciEvent(content);
-                    State = Nrf8001State.Connected;
-                    break;
-
                 case AciEventType.DataCredit:
                     aciEvent = new DataCreditEvent(content);
                     HandleDataCreditEvent((DataCreditEvent)aciEvent);
@@ -385,19 +380,26 @@ namespace Nrf8001Driver
                     break;
 
                 case AciEventType.Disconnected:
-                    aciEvent = new AciEvent(content);
-                    State = Nrf8001State.Standby;
+                    aciEvent = new DisconnectedEvent(content);
+                    HandleDisconnectedEvent((DisconnectedEvent)aciEvent);
                     break;
+            }
 
-                case AciEventType.PipeStatus:
-                    aciEvent = new AciEvent(content);
-                    OpenPipesBitmap = aciEvent.Content.ToUnsignedLong(1);
-                    ClosedPipesBitmap = aciEvent.Content.ToUnsignedLong(9);
-                    break;                
+            if (aciEvent == null)
+            {
+                aciEvent = new AciEvent(content);
 
-                default:
-                    aciEvent = new AciEvent(content);
-                    break;
+                switch (eventType)
+                {
+                    case AciEventType.Connected:
+                        State = Nrf8001State.Connected;
+                        break;
+
+                    case AciEventType.PipeStatus:
+                        OpenPipesBitmap = aciEvent.Content.ToUnsignedLong(1);
+                        ClosedPipesBitmap = aciEvent.Content.ToUnsignedLong(9);
+                        break;
+                }
             }
 
             Debug.Print("Event: " + eventType.GetName());
@@ -438,6 +440,11 @@ namespace Nrf8001Driver
         {
             State = aciEvent.State;
             DataCreditsAvailable = aciEvent.DataCreditsAvailable;
+        }
+
+        private void HandleDisconnectedEvent(DisconnectedEvent aciEvent)
+        {
+            State = Nrf8001State.Standby;
         }
         #endregion
     }
