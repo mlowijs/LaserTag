@@ -79,10 +79,10 @@ namespace LaserTag.Gun.Controllers
                 _nrf.SendData(GunStatPipeId, (byte)ammo, (byte)clips);
         }
 
-        public void NotifyPlayer(int newHealth, byte shooterId)
+        public void NotifyPlayer(int health, byte shooterId)
         {
             if (_nrf.IsServicePipeOpen(PlayerStatPipeId))
-                _nrf.SendData(PlayerStatPipeId, (byte)newHealth, shooterId);
+                _nrf.SendData(PlayerStatPipeId, (byte)health, shooterId);
         }
 
 
