@@ -20,12 +20,12 @@ namespace Microchip25xx080Driver
 
         public byte[] Read(short startAddress, int length)
         {
-            var data = SpiTransfer(Instruction.Read, startAddress, new byte[length]);
+            var readBuffer = SpiTransfer(Instruction.Read, startAddress, new byte[length]);
 
-            var readBytes = new byte[length];
-            Array.Copy(data, 3, readBytes, 0, length);
+            var data = new byte[length];
+            Array.Copy(readBuffer, 3, data, 0, length);
 
-            return readBytes;
+            return data;
         }
 
         public byte Read(short address)

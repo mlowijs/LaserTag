@@ -1,6 +1,6 @@
 namespace Microchip25xx080Driver
 {
-    public enum Instruction : byte
+    enum Instruction : byte
     {
         WriteStatusRegister = 0x01,
         Write = 0x02,
