@@ -8,6 +8,8 @@ namespace Nrf8001Driver.Commands
         Sleep = 0x04,
         Wakeup = 0x05,
         Setup = 0x06,
+        ReadDynamicData = 0x07,
+        WriteDynamicData = 0x08,
         Connect = 0x0F,
         Bond = 0x10,
         OpenRemotePipe = 0x14,

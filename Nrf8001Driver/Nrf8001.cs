@@ -24,9 +24,15 @@ namespace Nrf8001Driver
         private byte[][] _setupData;
         private int _setupIndex = 0;
 
+        private ArrayList _dynamicData;
+        private bool _dynamicDataReadNext, _dynamicDataComplete;
+
         public event AciEventReceivedEventHandler AciEventReceived;
         public event DataReceivedEventHandler DataReceived;
 
+        /// <summary>
+        /// Gets whether the nRF8001 is bonded.
+        /// </summary>
         public bool Bonded { get; protected set; }
         /// <summary>
         /// Gets the device state of the nRF8001.
@@ -69,6 +75,7 @@ namespace Nrf8001Driver
 
             _rdy.OnInterrupt += OnRdyInterrupt;
         }
+
 
         /// <summary>
         /// Resets the nRF8001 by toggling its RST pin.
@@ -114,6 +121,31 @@ namespace Nrf8001Driver
 
             while (State != Nrf8001State.Standby)
                 ProcessEvents();
+        }
+
+        /// <summary>
+        /// Gets the dynamic data from the nRF8001.
+        /// </summary>
+        /// <returns>The dynamic data.</returns>
+        public byte[][] GetDynamicData()
+        {
+            _dynamicDataComplete = false;
+            _dynamicDataReadNext = true;
+            _dynamicData = new ArrayList();
+
+            do
+            {
+                if (_dynamicDataReadNext)
+                {
+                    _dynamicDataReadNext = false;
+                    ReadDynamicData();
+                }
+
+                ProcessEvents();
+            }
+            while (!_dynamicDataComplete);
+
+            return (byte[][])_dynamicData.ToArray(typeof(byte[]));
         }
 
         /// <summary>
@@ -166,6 +198,7 @@ namespace Nrf8001Driver
         {
             return (OpenPipesBitmap >> servicePipeId & 0x01) != 0;
         }
+
 
         #region ACI Commands
         /// <summary>
@@ -234,6 +267,10 @@ namespace Nrf8001Driver
             State = Nrf8001State.Bonding;
         }
 
+        /// <summary>
+        /// Opens a remote service pipe.
+        /// </summary>
+        /// <param name="pipeId">The ID of the service pipe to open.</param>
         public void OpenRemotePipe(byte pipeId)
         {
             if (State != Nrf8001State.Standby)
@@ -269,6 +306,11 @@ namespace Nrf8001Driver
                 throw new InvalidOperationException("Service pipe is not open.");
 
             AciSend(AciOpCode.SendData, servicePipeId, data);
+        }
+
+        private void ReadDynamicData()
+        {
+            AciSend(AciOpCode.ReadDynamicData);
         }
         #endregion
 
@@ -416,6 +458,25 @@ namespace Nrf8001Driver
                     Setup(_setupData[_setupIndex++]);
                 else if (aciEvent.StatusCode != AciStatusCode.TransactionComplete)
                     throw new Nrf8001Exception("Setup data invalid.");
+            }
+            else if (aciEvent.Command == AciOpCode.ReadDynamicData)
+            {
+                if (aciEvent.StatusCode == AciStatusCode.TransactionContinue)
+                {
+                    var data = new byte[aciEvent.Content.Length - 3];
+
+                    Array.Copy(aciEvent.Content, 3, data, 0, data.Length);
+                    _dynamicData.Add(data);
+
+                    _dynamicDataReadNext = true;
+                }
+                else
+                {
+                    if (aciEvent.StatusCode != AciStatusCode.TransactionComplete)
+                        _dynamicData = null;
+
+                    _dynamicDataComplete = true;
+                }
             }
         }
 
