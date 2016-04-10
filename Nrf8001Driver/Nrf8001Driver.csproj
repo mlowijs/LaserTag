@@ -43,7 +43,6 @@
     <Compile Include="Events\DisconnectedEvent.cs" />
     <Compile Include="Extensions\AciEventTypeExtensions.cs" />
     <Compile Include="Extensions\ByteArrayExtensions.cs" />
-    <Compile Include="Extensions\SPIExtensions.cs" />
     <Compile Include="Nrf8001.cs" />
     <Compile Include="Nrf8001Exception.cs" />
     <Compile Include="Nrf8001State.cs" />
@@ -53,6 +52,12 @@
   <ItemGroup>
     <Reference Include="Microsoft.SPOT.Hardware" />
     <Reference Include="Microsoft.SPOT.Native" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NetmfHelpers\NetmfHelpers.csproj">
+      <Project>{7F9F3FD6-BD65-40BB-8165-B2997C72E6D8}</Project>
+      <Name>NetmfHelpers</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Condition="EXISTS('$(NetMfTargetsBaseDir)$(TargetFrameworkVersion)\CSharp.Targets')" Project="$(NetMfTargetsBaseDir)$(TargetFrameworkVersion)\CSharp.Targets" />
   <Import Condition="!EXISTS('$(NetMfTargetsBaseDir)$(TargetFrameworkVersion)\CSharp.Targets')" Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

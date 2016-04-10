@@ -40,6 +40,7 @@
       <Link>Model\Command.cs</Link>
     </Compile>
     <Compile Include="Controllers\BluetoothController.cs" />
+    <Compile Include="Controllers\FlashController.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\IOController.cs" />
     <Compile Include="Extensions\InputPortExtensions.cs" />
@@ -62,6 +63,10 @@
     <Reference Include="GoBus" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Microchip25xx080Driver\Microchip25xx080Driver.csproj">
+      <Project>{3AA01119-4CEF-418F-9841-193C8EC1F4B4}</Project>
+      <Name>Microchip25xx080Driver</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Nrf8001Driver\Nrf8001Driver.csproj">
       <Project>{5DF5842F-2712-4E9E-9262-F626D7204818}</Project>
       <Name>Nrf8001Driver</Name>

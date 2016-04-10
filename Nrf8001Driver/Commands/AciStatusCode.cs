@@ -8,6 +8,8 @@ namespace Nrf8001Driver.Commands
         TransactionComplete = 0x02,
         Extended = 0x03,
 
+        DeviceStateInvalid = 0x83,
+
         BondRequired = 0x8D,
 
         AdvertisingTimeout = 0x93,

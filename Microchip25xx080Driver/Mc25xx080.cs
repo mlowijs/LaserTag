@@ -1,24 +1,24 @@
 using Microsoft.SPOT.Hardware;
+using NetmfHelpers;
 using System;
 
 namespace Microchip25xx080Driver
 {
     public class Mc25xx080
     {
-        private SPI _spi;
-        private OutputPort _hold;
-        private readonly int _pageSize;
+        private readonly ushort _pageSize;
 
-        public Mc25xx080(int pageSize, Cpu.Pin csPin, Cpu.Pin holdPin, SPI.SPI_module spiModule)
+        private MultiSyncedSPI _spi;
+
+        public Mc25xx080(ushort pageSize, Cpu.Pin csPin, SPI.SPI_module spiModule)
         {
             _pageSize = pageSize;
 
-            _spi = new SPI(new SPI.Configuration(csPin, false, 100, 200, false, true, 5000, spiModule));
-            _hold = new OutputPort(holdPin, true);
+            _spi = new MultiSyncedSPI(new SPI.Configuration(csPin, false, 100, 200, false, true, 5000, spiModule));
         }
 
 
-        public byte[] Read(short startAddress, int length)
+        public byte[] Read(ushort startAddress, int length)
         {
             var readBuffer = SpiTransfer(Instruction.Read, startAddress, new byte[length]);
 
@@ -28,12 +28,12 @@ namespace Microchip25xx080Driver
             return data;
         }
 
-        public byte Read(short address)
+        public byte Read(ushort address)
         {
             return Read(address, 1)[0];
         }
 
-        public void Write(short startAddress, params byte[] data)
+        public void Write(ushort startAddress, params byte[] data)
         {
             if (data.Length > _pageSize - (startAddress % _pageSize))
                 return;
@@ -42,8 +42,20 @@ namespace Microchip25xx080Driver
             SpiTransfer(Instruction.Write, startAddress, data);
         }
 
+        public void Erase(ushort page)
+        {
+            if (page % _pageSize != 0)
+                return;
 
-        private byte[] SpiTransfer(Instruction instruction, short address, params byte[] data)
+            var data = new byte[_pageSize];
+            for (int i = 0; i < data.Length; i++)
+                data[i] = 0xFF;
+
+            Write((ushort)(page * _pageSize), data);
+        }
+
+
+        private byte[] SpiTransfer(Instruction instruction, ushort address, params byte[] data)
         {
             var writeBuffer = new byte[data.Length + 3];
             writeBuffer[0] = (byte)instruction;

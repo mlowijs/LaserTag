@@ -6,6 +6,7 @@ using Microsoft.SPOT.Hardware;
 using Nrf8001Driver.Commands;
 using Nrf8001Driver.Events;
 using Nrf8001Driver.Extensions;
+using NetmfHelpers;
 
 namespace Nrf8001Driver
 {
@@ -18,7 +19,7 @@ namespace Nrf8001Driver
 
         private OutputPort _req, _rst;
         private InterruptPort _rdy;
-        private SPI _spi;
+        private MultiSyncedSPI _spi;
         private Queue _eventQueue;
 
         private byte[][] _setupData;
@@ -68,7 +69,8 @@ namespace Nrf8001Driver
             _rst = new OutputPort(rstPin, false);
             _req = new OutputPort(reqPin, true);
             _rdy = new InterruptPort(rdyPin, false, Port.ResistorMode.PullUp, Port.InterruptMode.InterruptEdgeLow);
-            _spi = new SPI(new SPI.Configuration(Cpu.Pin.GPIO_NONE, false, 0, 0, false, true, 100, spiModule));
+
+            _spi = new MultiSyncedSPI(new SPI.Configuration(Cpu.Pin.GPIO_NONE, false, 0, 0, false, true, 2000, spiModule));
 
             State = Nrf8001State.Unknown;
             Reset();
@@ -121,6 +123,8 @@ namespace Nrf8001Driver
 
             while (State != Nrf8001State.Standby)
                 ProcessEvents();
+
+            _setupData = null;
         }
 
         /// <summary>
@@ -145,7 +149,11 @@ namespace Nrf8001Driver
             }
             while (!_dynamicDataComplete);
 
-            return (byte[][])_dynamicData.ToArray(typeof(byte[]));
+            var dynamicDataArray = _dynamicData.ToArray(typeof(byte[]));
+            var finalArray = new byte[dynamicDataArray.Length][];
+            dynamicDataArray.CopyTo(finalArray, finalArray.Length);
+
+            return finalArray;
         }
 
         /// <summary>
@@ -186,6 +194,19 @@ namespace Nrf8001Driver
                     return;
                 else if (State == Nrf8001State.Standby)
                     Bond(timeout, interval);
+            }
+        }
+
+        public void AwaitDisconnect()
+        {
+            Disconnect();
+
+            while (true)
+            {
+                ProcessEvents();
+
+                if (State == Nrf8001State.Standby)
+                    return;
             }
         }
 
@@ -265,6 +286,11 @@ namespace Nrf8001Driver
                                     (byte)(interval), (byte)(interval >> 8)); // Interval
 
             State = Nrf8001State.Bonding;
+        }
+
+        private void Disconnect()
+        {
+            AciSend(AciOpCode.Disconnect, 0x01);
         }
 
         /// <summary>

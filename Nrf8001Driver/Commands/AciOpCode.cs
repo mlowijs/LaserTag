@@ -12,6 +12,7 @@ namespace Nrf8001Driver.Commands
         WriteDynamicData = 0x08,
         Connect = 0x0F,
         Bond = 0x10,
+        Disconnect = 0x11,
         OpenRemotePipe = 0x14,
         SendData = 0x15,
     }
