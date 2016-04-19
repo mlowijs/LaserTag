@@ -1,4 +1,3 @@
-using LaserTag.Gun.Extensions;
 using LaserTag.Model;
 using Microsoft.SPOT.Hardware;
 using Nrf8001Driver;

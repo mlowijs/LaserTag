@@ -27,7 +27,7 @@ namespace LaserTag.Gun.Laser
 
         public byte[] ToBytes()
         {
-            return new byte[] { LeadingByte, 0, SenderId, SequenceNumber, TrailingByte };
+            return new byte[] { LeadingByte, SenderId, SequenceNumber, TrailingByte };
         }                                 // ^ Dummy byte because of SerialPort bug
     }
 }

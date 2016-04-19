@@ -16,14 +16,14 @@
             <ForceOpen>false</ForceOpen>
             <ForceEncryption>false</ForceEncryption>
             <Properties>
-                <WriteWithoutResponse>true</WriteWithoutResponse>
-                <Write>false</Write>
+                <WriteWithoutResponse>false</WriteWithoutResponse>
+                <Write>true</Write>
                 <Notify>false</Notify>
                 <Indicate>false</Indicate>
                 <Broadcast>false</Broadcast>
             </Properties>
             <SetPipe>false</SetPipe>
-            <AckIsAuto>false</AckIsAuto>
+            <AckIsAuto>true</AckIsAuto>
             <PresentationFormatDescriptor Value="0000" Exponent="0" Format="1" NameSpace="01" Unit="0000"/>
             <PeriodForReadingThisCharacteristic>0</PeriodForReadingThisCharacteristic>
             <PeriodForProperties/>
@@ -44,8 +44,8 @@
             <Properties>
                 <WriteWithoutResponse>false</WriteWithoutResponse>
                 <Write>false</Write>
-                <Notify>true</Notify>
-                <Indicate>false</Indicate>
+                <Notify>false</Notify>
+                <Indicate>true</Indicate>
                 <Broadcast>false</Broadcast>
             </Properties>
             <SetPipe>false</SetPipe>
@@ -66,8 +66,8 @@
             <Properties>
                 <WriteWithoutResponse>false</WriteWithoutResponse>
                 <Write>false</Write>
-                <Notify>true</Notify>
-                <Indicate>false</Indicate>
+                <Notify>false</Notify>
+                <Indicate>true</Indicate>
                 <Broadcast>false</Broadcast>
             </Properties>
             <SetPipe>false</SetPipe>
