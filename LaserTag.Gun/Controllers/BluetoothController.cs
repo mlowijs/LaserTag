@@ -46,8 +46,6 @@ namespace LaserTag.Gun.Controllers
         private const byte GunStatPipeId = 3;
         private const byte PlayerStatPipeId = 4;
 
-        private static readonly byte[] DeviceNameBytes = new byte[] { 0x4c, 0x54, 0x20, 0x47, 0x75, 0x6e, 0x20 }; // "LT Gun "
-
         private Nrf8001 _nrf;
         private OutputPort _onboardLed;
         private Timer _btTimer;
