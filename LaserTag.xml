@@ -78,9 +78,9 @@
         </Characteristic>
     </Service>
     <Gapsettings>
-        <Name>LaserTag Gun 01</Name>
-        <DeviceNameWriteLength>0</DeviceNameWriteLength>
-        <LocalPipeOnDeviceName>false</LocalPipeOnDeviceName>
+        <Name>LT Gun 00</Name>
+        <DeviceNameWriteLength>9</DeviceNameWriteLength>
+        <LocalPipeOnDeviceName>true</LocalPipeOnDeviceName>
         <DeviceNameShortLength>1</DeviceNameShortLength>
         <Apperance>03c0</Apperance>
         <SecurityLevel>1</SecurityLevel>

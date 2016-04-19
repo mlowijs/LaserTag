@@ -254,6 +254,17 @@ namespace Nrf8001Driver
             AciSend(AciOpCode.Setup, data);
         }
 
+        public void SetLocalData(byte servicePipeId, params byte[] data)
+        {
+            if (servicePipeId < 1 || servicePipeId > 62)
+                throw new ArgumentOutOfRangeException("servicePipeId", "Service pipe ID must be between 1 and 62, inclusive.");
+
+            if (data.Length < 1 || data.Length > 20)
+                throw new ArgumentOutOfRangeException("data", "Data length must be between 1 and 20, inclusive.");
+
+            AciSend(AciOpCode.SetLocalData, servicePipeId, data);
+        }
+
         private void Connect(ushort timeout, ushort interval)
         {
             if (State != Nrf8001State.Standby)
@@ -296,16 +307,16 @@ namespace Nrf8001Driver
         /// <summary>
         /// Opens a remote service pipe.
         /// </summary>
-        /// <param name="pipeId">The ID of the service pipe to open.</param>
-        public void OpenRemotePipe(byte pipeId)
+        /// <param name="servicePipeId">The ID of the service pipe to open.</param>
+        public void OpenRemotePipe(byte servicePipeId)
         {
             if (State != Nrf8001State.Standby)
                 throw new InvalidOperationException("nRF8001 is not in Standby mode.");
 
-            if (pipeId < 1 || pipeId > 62)
+            if (servicePipeId < 1 || servicePipeId > 62)
                 throw new ArgumentOutOfRangeException("timeout", "Timeout must be between 1 and 62, inclusive.");
 
-            AciSend(AciOpCode.OpenRemotePipe, pipeId);
+            AciSend(AciOpCode.OpenRemotePipe, servicePipeId);
         }
 
         /// <summary>
@@ -485,24 +496,28 @@ namespace Nrf8001Driver
                 else if (aciEvent.StatusCode != AciStatusCode.TransactionComplete)
                     throw new Nrf8001Exception("Setup data invalid.");
             }
-            else if (aciEvent.Command == AciOpCode.ReadDynamicData)
+            //else if (aciEvent.Command == AciOpCode.ReadDynamicData)
+            //{
+            //    if (aciEvent.StatusCode == AciStatusCode.TransactionContinue)
+            //    {
+            //        var data = new byte[aciEvent.Content.Length - 3];
+
+            //        Array.Copy(aciEvent.Content, 3, data, 0, data.Length);
+            //        _dynamicData.Add(data);
+
+            //        _dynamicDataReadNext = true;
+            //    }
+            //    else
+            //    {
+            //        if (aciEvent.StatusCode != AciStatusCode.TransactionComplete)
+            //            _dynamicData = null;
+
+            //        _dynamicDataComplete = true;
+            //    }
+            //}
+            else if (aciEvent.Command == AciOpCode.SetLocalData)
             {
-                if (aciEvent.StatusCode == AciStatusCode.TransactionContinue)
-                {
-                    var data = new byte[aciEvent.Content.Length - 3];
-
-                    Array.Copy(aciEvent.Content, 3, data, 0, data.Length);
-                    _dynamicData.Add(data);
-
-                    _dynamicDataReadNext = true;
-                }
-                else
-                {
-                    if (aciEvent.StatusCode != AciStatusCode.TransactionComplete)
-                        _dynamicData = null;
-
-                    _dynamicDataComplete = true;
-                }
+                Debug.Print("SLD");
             }
         }
 

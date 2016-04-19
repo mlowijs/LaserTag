@@ -25,8 +25,12 @@ namespace LaserTag.Gun.Controllers
             }
         }
 
+        public byte GunId { get; protected set; }
+
         public IOController(byte gunId)
         {
+            GunId = gunId;
+
             _triggerButton = new InputPort(Pins.GPIO_PIN_D4, true, ResistorModes.PullUp);
 
             _laserDriver = new LaserDriver(SerialPorts.COM1, gunId);
