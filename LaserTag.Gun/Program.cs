@@ -12,7 +12,7 @@ namespace LaserTag.Gun
             //var flashController = new FlashController();
             //var gunId = flashController.GetGunId();
 
-            var ioController = new IOController(0x07);
+            var ioController = new IOController();
 
             var btController = new BluetoothController(ioController);
 

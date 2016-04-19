@@ -22,6 +22,8 @@ namespace Nrf8001Driver
         private MultiSyncedSPI _spi;
         private Queue _eventQueue;
 
+        private byte[] _deviceAddress;
+
         private byte[][] _setupData;
         private int _setupIndex = 0;
 
@@ -252,6 +254,19 @@ namespace Nrf8001Driver
         private void Setup(byte[] data)
         {
             AciSend(AciOpCode.Setup, data);
+        }
+
+        public byte[] GetDeviceAddress()
+        {
+            if (_deviceAddress != null)
+                return _deviceAddress;
+
+            AciSend(AciOpCode.GetDeviceAddress);
+
+            while (_deviceAddress == null)
+                ProcessEvents();
+
+            return _deviceAddress;
         }
 
         public void SetLocalData(byte servicePipeId, params byte[] data)
@@ -496,6 +511,14 @@ namespace Nrf8001Driver
                 else if (aciEvent.StatusCode != AciStatusCode.TransactionComplete)
                     throw new Nrf8001Exception("Setup data invalid.");
             }
+            else if (aciEvent.Command == AciOpCode.GetDeviceAddress)
+            {
+                var buffer = new byte[6];
+
+                Array.Copy(aciEvent.Content, 3, buffer, 0, buffer.Length);
+
+                _deviceAddress = buffer;
+            }
             //else if (aciEvent.Command == AciOpCode.ReadDynamicData)
             //{
             //    if (aciEvent.StatusCode == AciStatusCode.TransactionContinue)
@@ -515,10 +538,6 @@ namespace Nrf8001Driver
             //        _dynamicDataComplete = true;
             //    }
             //}
-            else if (aciEvent.Command == AciOpCode.SetLocalData)
-            {
-                Debug.Print("SLD");
-            }
         }
 
         private void HandleBondStatusEvent(BondStatusEvent aciEvent)

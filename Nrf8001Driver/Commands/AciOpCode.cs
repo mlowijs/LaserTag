@@ -10,6 +10,7 @@ namespace Nrf8001Driver.Commands
         Setup = 0x06,
         ReadDynamicData = 0x07,
         WriteDynamicData = 0x08,
+        GetDeviceAddress = 0x0A,
         SetLocalData = 0x0D,
         Connect = 0x0F,
         Bond = 0x10,

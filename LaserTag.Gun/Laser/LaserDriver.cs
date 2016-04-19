@@ -15,23 +15,21 @@ namespace LaserTag.Gun.Laser
         private SerialPort _serialPort;
         private OutputPort _redDotSight;
         private byte _sendSeqNumber = 1, _recvSeqNumber;
-        private byte _senderId, _recvId;
+        private byte _recvId;
 
         public event PacketReceivedEventHandler PacketReceived;
 
-        public LaserDriver(string serialPortName, byte myId)
+        public LaserDriver(string serialPortName)
         {
-            _senderId = myId;
-
             _serialPort = new SerialPort(serialPortName, BaudRate, Parity, DataBits, StopBits);
             _serialPort.DataReceived += OnDataReceived;
             _serialPort.Open();
         }
 
 
-        public void SendPacket()
+        public void SendPacket(byte senderId)
         {
-            var packet = new LaserPacket(_senderId, _sendSeqNumber++);
+            var packet = new LaserPacket(senderId, _sendSeqNumber++);
             var packetBytes = packet.ToBytes();
 
             for (var i = 0; i < 3; i++)

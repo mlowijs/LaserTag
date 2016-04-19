@@ -68,8 +68,10 @@ namespace LaserTag.Gun.Controllers
 
             _nrf.Setup(Nrf8001SetupData);
 
-            var deviceName = Encoding.UTF8.GetBytes("LT Gun " + ioController.GunId.ToString().PadLeft(2, '0'));
+            var deviceAddress = _nrf.GetDeviceAddress();
+            var deviceName = Encoding.UTF8.GetBytes("LT Gun " + deviceAddress[0].ToString("x2"));
             _nrf.SetLocalData(DeviceNamePipeId, deviceName);
+            ioController.GunId = deviceAddress[0];
 
             _nrf.AwaitBond(BtLeBondTimeout, BtLeBondInterval);
         }

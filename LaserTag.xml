@@ -78,8 +78,8 @@
         </Characteristic>
     </Service>
     <Gapsettings>
-        <Name>LT Gun 00</Name>
-        <DeviceNameWriteLength>9</DeviceNameWriteLength>
+        <Name>LT Gun 00:00</Name>
+        <DeviceNameWriteLength>12</DeviceNameWriteLength>
         <LocalPipeOnDeviceName>true</LocalPipeOnDeviceName>
         <DeviceNameShortLength>1</DeviceNameShortLength>
         <Apperance>03c0</Apperance>
