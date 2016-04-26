@@ -4,9 +4,9 @@ namespace LaserTag.Gun.Controllers
 {
     public class GameController
     {
-        private const int FiringInterval = 250;
+        private const int FiringInterval = 300;
 
-        private int _ammoPerClip = 20;
+        private int _ammoPerClip = 9999;
         private int _damagePerHit = 10;
 
         private int _initialClips = 3;
@@ -16,12 +16,12 @@ namespace LaserTag.Gun.Controllers
         private int _clips;
         private int _health;
 
-        public BluetoothController BluetoothController { get; private set; }
+        public IBluetoothController BluetoothController { get; private set; }
         public IOController IOController { get; private set; }
 
         public Timer FiringTimer { get; private set; }
 
-        public GameController(BluetoothController btController, IOController ioController)
+        public GameController(IBluetoothController btController, IOController ioController)
         {
             BluetoothController = btController;
             IOController = ioController;
@@ -43,6 +43,9 @@ namespace LaserTag.Gun.Controllers
 
         public void HitByLaser(byte shooterId)
         {
+            if (_health <= 0)
+                return;
+
             _health -= _damagePerHit;
 
             BluetoothController.NotifyPlayer(_health, shooterId);
@@ -66,8 +69,6 @@ namespace LaserTag.Gun.Controllers
             if (_ammo > 0 && _health > 0)
             {
                 _ammo--;
-
-                Debug.Print("Ammo, clips = " + _ammo + ", " + _clips);
 
                 IOController.FireLaser();
                 BluetoothController.NotifyGun(_ammo, _clips);

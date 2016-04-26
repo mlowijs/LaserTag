@@ -1,5 +1,6 @@
 using LaserTag.Gun.Extensions;
 using LaserTag.Gun.Laser;
+using Microsoft.SPOT;
 using Microsoft.SPOT.Hardware;
 using SecretLabs.NETMF.Hardware.Netduino;
 

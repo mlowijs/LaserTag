@@ -8,7 +8,7 @@ using System.Text;
 
 namespace LaserTag.Gun.Controllers
 {
-    public class BluetoothController
+    public class BluetoothController : IBluetoothController
     {
         #region nRF8001 Setup Data
         private readonly byte[][] Nrf8001SetupData = new byte[][]
@@ -50,7 +50,7 @@ namespace LaserTag.Gun.Controllers
         private Timer _btTimer;
 
         public GameController GameController { get; set; }
-        public IOController IOController { get; private set; }
+        public IOController IOController { get; set; }
 
         public BluetoothController(IOController ioController)
         {

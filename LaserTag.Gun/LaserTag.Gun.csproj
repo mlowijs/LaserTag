@@ -40,10 +40,12 @@
       <Link>Model\Command.cs</Link>
     </Compile>
     <Compile Include="Controllers\BluetoothController.cs" />
+    <Compile Include="Controllers\DummyBluetoothController.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\IOController.cs" />
     <Compile Include="Extensions\InputPortExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Controllers\IBluetoothController.cs" />
     <Compile Include="Laser\LaserDriver.cs" />
     <Compile Include="Laser\LaserPacket.cs" />
     <Compile Include="Program.cs" />

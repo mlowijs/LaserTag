@@ -1,3 +1,4 @@
+using Microsoft.SPOT;
 using Microsoft.SPOT.Hardware;
 using System.IO.Ports;
 
@@ -7,7 +8,7 @@ namespace LaserTag.Gun.Laser
 
     public class LaserDriver
     {
-        private readonly int BaudRate = 2400;
+        private readonly int BaudRate = 600;
         private readonly Parity Parity = Parity.Odd;
         private readonly int DataBits = 8;
         private readonly StopBits StopBits = StopBits.One;
@@ -32,20 +33,30 @@ namespace LaserTag.Gun.Laser
             var packet = new LaserPacket(senderId, _sendSeqNumber++);
             var packetBytes = packet.ToBytes();
 
-            for (var i = 0; i < 3; i++)
-            {
+            //for (var i = 0; i < 3; i++)
+            //{
                 _serialPort.Write(packetBytes, 0, packetBytes.Length);
                 _serialPort.Flush();
-            }
+            //}
         }
 
 
         private void OnDataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            var data = new byte[4];
-            var read = _serialPort.Read(data, 0, data.Length);
+            var firstByte = _serialPort.ReadByte();
 
-            _serialPort.DiscardInBuffer();
+            Debug.Print("F = " + firstByte);
+
+            if (firstByte != LaserPacket.LeadingByte)
+            {
+                _serialPort.DiscardInBuffer();
+                return;
+            }
+
+            var data = new byte[4];
+            var read = _serialPort.Read(data, 1, data.Length - 1);
+
+            data[0] = (byte)firstByte;
 
             if (!IsPacketDataValid(data, read))
                 return;
@@ -55,14 +66,12 @@ namespace LaserTag.Gun.Laser
             if (!IsPacketNew(packet))
                 return;
 
-            if (PacketReceived != null)
-                PacketReceived(packet);
+            PacketReceived?.Invoke(packet);
         }
 
         private bool IsPacketDataValid(byte[] data, int read)
         {
-            return data[LaserPacket.LeadingByteIndex] == LaserPacket.LeadingByte
-                && read == data.Length
+            return read == data.Length - 1
                 && data[LaserPacket.TrailingByteIndex] == LaserPacket.TrailingByte;
         }
 

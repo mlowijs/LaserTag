@@ -9,12 +9,9 @@ namespace LaserTag.Gun
         {
             Debug.Print("Program started.");
 
-            //var flashController = new FlashController();
-            //var gunId = flashController.GetGunId();
-
             var ioController = new IOController();
-
             var btController = new BluetoothController(ioController);
+            //var btController = new DummyBluetoothController();
 
             var gameController = new GameController(btController, ioController);
             btController.GameController = gameController;
