@@ -6,7 +6,7 @@ namespace LaserTag.Gun.Controllers
     {
         private const int FiringInterval = 300;
 
-        private int _ammoPerClip = 9999;
+        private int _ammoPerClip = 20;
         private int _damagePerHit = 10;
 
         private int _initialClips = 3;
